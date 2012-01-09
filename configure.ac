@@ -7,9 +7,10 @@ AC_CONFIG_FILES(
 	Makefile
 	src/common/rsxgl_samples_config.h
 	src/fluids/Makefile
+	src/glassview/Makefile
 )
 
-SAMPLES_SUBDIRS="src/fluids"
+SAMPLES_SUBDIRS="src/fluids src/glassview"
 
 AC_SUBST([SAMPLES_SUBDIRS])
 
@@ -72,5 +73,11 @@ AC_TOOLCHAIN_EXTPKG([ppu],[libpng],[libpng],[${ppu_portlibs_PKG_CONFIG_PATH}])
 
 # Look for zlib:
 AC_TOOLCHAIN_EXTPKG([ppu],[zlib],[zlib],[${ppu_portlibs_PKG_CONFIG_PATH}])
+
+# Look for assimp:
+AC_TOOLCHAIN_EXTPKG([ppu],[assimp],[assimp],[${ppu_portlibs_PKG_CONFIG_PATH}])
+
+# Look for glassimp:
+AC_TOOLCHAIN_EXTPKG([ppu],[glassimp],[glassimp],[${ppu_portlibs_PKG_CONFIG_PATH}])
 
 AC_OUTPUT

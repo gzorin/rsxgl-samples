@@ -604,6 +604,12 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+ppu_glassimp_LIBS
+ppu_glassimp_LDFLAGS
+ppu_glassimp_CPPFLAGS
+ppu_assimp_LIBS
+ppu_assimp_LDFLAGS
+ppu_assimp_CPPFLAGS
 ppu_zlib_LIBS
 ppu_zlib_LDFLAGS
 ppu_zlib_CPPFLAGS
@@ -783,7 +789,13 @@ ppu_libpng_LDFLAGS
 ppu_libpng_LIBS
 ppu_zlib_CPPFLAGS
 ppu_zlib_LDFLAGS
-ppu_zlib_LIBS'
+ppu_zlib_LIBS
+ppu_assimp_CPPFLAGS
+ppu_assimp_LDFLAGS
+ppu_assimp_LIBS
+ppu_glassimp_CPPFLAGS
+ppu_glassimp_LDFLAGS
+ppu_glassimp_LIBS'
 
 
 # Initialize some variables set by options.
@@ -1467,6 +1479,18 @@ Some influential environment variables:
               linker flags for ppu_zlib, overriding pkg-config
   ppu_zlib_LIBS
               library flags for ppu_zlib, overriding pkg-config
+  ppu_assimp_CPPFLAGS
+              C preprocessor flags for ppu_assimp, overriding pkg-config
+  ppu_assimp_LDFLAGS
+              linker flags for ppu_assimp, overriding pkg-config
+  ppu_assimp_LIBS
+              library flags for ppu_assimp, overriding pkg-config
+  ppu_glassimp_CPPFLAGS
+              C preprocessor flags for ppu_glassimp, overriding pkg-config
+  ppu_glassimp_LDFLAGS
+              linker flags for ppu_glassimp, overriding pkg-config
+  ppu_glassimp_LIBS
+              library flags for ppu_glassimp, overriding pkg-config
 
 Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
@@ -2681,10 +2705,10 @@ am__tar='${AMTAR} chof - "$$tardir"'; am__untar='${AMTAR} xf -'
 
 
 
-ac_config_files="$ac_config_files Makefile src/common/rsxgl_samples_config.h src/fluids/Makefile"
+ac_config_files="$ac_config_files Makefile src/common/rsxgl_samples_config.h src/fluids/Makefile src/glassview/Makefile"
 
 
-SAMPLES_SUBDIRS="src/fluids"
+SAMPLES_SUBDIRS="src/fluids src/glassview"
 
 
 
@@ -5788,7 +5812,6 @@ $as_echo "$as_me: pkg-config search paths for PPU ported libraries are \"${ppu_p
 
 
 
-
 if test "x$ac_cv_env_PKG_CONFIG_set" != "xset"; then
 	if test -n "$ac_tool_prefix"; then
   # Extract the first word of "${ac_tool_prefix}pkg-config", so it can be a program name with args.
@@ -5928,7 +5951,6 @@ if test -n "$ppu_libpng_CPPFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_libpng_CPPFLAGS=`$PKG_CONFIG --cflags "libpng" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5945,7 +5967,6 @@ if test -n "$ppu_libpng_LDFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_libpng_LDFLAGS=`$PKG_CONFIG --libs-only-L "libpng" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5962,7 +5983,6 @@ if test -n "$ppu_libpng_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_libpng_LIBS=`$PKG_CONFIG --libs-only-l "libpng" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6055,7 +6075,6 @@ if test -n "$ppu_zlib_CPPFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_zlib_CPPFLAGS=`$PKG_CONFIG --cflags "zlib" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6072,7 +6091,6 @@ if test -n "$ppu_zlib_LDFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_zlib_LDFLAGS=`$PKG_CONFIG --libs-only-L "zlib" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6089,7 +6107,6 @@ if test -n "$ppu_zlib_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_zlib_LIBS=`$PKG_CONFIG --libs-only-l "zlib" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6146,6 +6163,254 @@ else
 	ppu_zlib_CPPFLAGS=$pkg_cv_ppu_zlib_CPPFLAGS
 	ppu_zlib_LDFLAGS=$pkg_cv_ppu_zlib_LDFLAGS
 	ppu_zlib_LIBS=$pkg_cv_ppu_zlib_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+
+
+fi
+
+
+
+# Look for assimp:
+
+
+
+
+if test -n "${ppu_portlibs_PKG_CONFIG_PATH}:${ppu_PKG_CONFIG_PATH}"; then
+   tmp_PKG_CONFIG_PATH="${ppu_portlibs_PKG_CONFIG_PATH}:${ppu_PKG_CONFIG_PATH}"
+else
+   tmp_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
+fi
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ppu_assimp (PKG_CONFIG_PATH is \"${tmp_PKG_CONFIG_PATH}\")" >&5
+$as_echo_n "checking for ppu_assimp (PKG_CONFIG_PATH is \"${tmp_PKG_CONFIG_PATH}\")... " >&6; }
+
+save_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}";
+export PKG_CONFIG_PATH="${tmp_PKG_CONFIG_PATH}"
+if test -n "$ppu_assimp_CPPFLAGS"; then
+    pkg_cv_ppu_assimp_CPPFLAGS="$ppu_assimp_CPPFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"assimp\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "assimp") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_ppu_assimp_CPPFLAGS=`$PKG_CONFIG --cflags "assimp" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$ppu_assimp_LDFLAGS"; then
+    pkg_cv_ppu_assimp_LDFLAGS="$ppu_assimp_LDFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"assimp\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "assimp") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_ppu_assimp_LDFLAGS=`$PKG_CONFIG --libs-only-L "assimp" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$ppu_assimp_LIBS"; then
+    pkg_cv_ppu_assimp_LIBS="$ppu_assimp_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"assimp\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "assimp") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_ppu_assimp_LIBS=`$PKG_CONFIG --libs-only-l "assimp" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+export PKG_CONFIG_PATH="${save_PKG_CONFIG_PATH}"
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        ppu_assimp_PKG_ERRORS=`PKG_CONFIG_PATH="${tmp_PKG_CONFIG_PATH}" $PKG_CONFIG --short-errors --print-errors --cflags --libs "assimp" 2>&1`
+        else
+	        ppu_assimp_PKG_ERRORS=`PKG_CONFIG_PATH="${tmp_PKG_CONFIG_PATH}" $PKG_CONFIG --print-errors --cflags --libs "assimp" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$ppu_assimp_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (assimp) were not met:
+
+$ppu_assimp_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables ppu_assimp_CPPFLAGS
+and ppu_assimp_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables ppu_assimp_CPPFLAGS
+and ppu_assimp_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	ppu_assimp_CPPFLAGS=$pkg_cv_ppu_assimp_CPPFLAGS
+	ppu_assimp_LDFLAGS=$pkg_cv_ppu_assimp_LDFLAGS
+	ppu_assimp_LIBS=$pkg_cv_ppu_assimp_LIBS
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+
+
+
+fi
+
+
+
+# Look for glassimp:
+
+
+
+
+if test -n "${ppu_portlibs_PKG_CONFIG_PATH}:${ppu_PKG_CONFIG_PATH}"; then
+   tmp_PKG_CONFIG_PATH="${ppu_portlibs_PKG_CONFIG_PATH}:${ppu_PKG_CONFIG_PATH}"
+else
+   tmp_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
+fi
+
+pkg_failed=no
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ppu_glassimp (PKG_CONFIG_PATH is \"${tmp_PKG_CONFIG_PATH}\")" >&5
+$as_echo_n "checking for ppu_glassimp (PKG_CONFIG_PATH is \"${tmp_PKG_CONFIG_PATH}\")... " >&6; }
+
+save_PKG_CONFIG_PATH="${PKG_CONFIG_PATH}";
+export PKG_CONFIG_PATH="${tmp_PKG_CONFIG_PATH}"
+if test -n "$ppu_glassimp_CPPFLAGS"; then
+    pkg_cv_ppu_glassimp_CPPFLAGS="$ppu_glassimp_CPPFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glassimp\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glassimp") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_ppu_glassimp_CPPFLAGS=`$PKG_CONFIG --cflags "glassimp" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$ppu_glassimp_LDFLAGS"; then
+    pkg_cv_ppu_glassimp_LDFLAGS="$ppu_glassimp_LDFLAGS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glassimp\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glassimp") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_ppu_glassimp_LDFLAGS=`$PKG_CONFIG --libs-only-L "glassimp" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+if test -n "$ppu_glassimp_LIBS"; then
+    pkg_cv_ppu_glassimp_LIBS="$ppu_glassimp_LIBS"
+ elif test -n "$PKG_CONFIG"; then
+    if test -n "$PKG_CONFIG" && \
+    { { $as_echo "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"glassimp\""; } >&5
+  ($PKG_CONFIG --exists --print-errors "glassimp") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; then
+  pkg_cv_ppu_glassimp_LIBS=`$PKG_CONFIG --libs-only-l "glassimp" 2>/dev/null`
+else
+  pkg_failed=yes
+fi
+ else
+    pkg_failed=untried
+fi
+export PKG_CONFIG_PATH="${save_PKG_CONFIG_PATH}"
+
+
+
+if test $pkg_failed = yes; then
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+
+if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
+        _pkg_short_errors_supported=yes
+else
+        _pkg_short_errors_supported=no
+fi
+        if test $_pkg_short_errors_supported = yes; then
+	        ppu_glassimp_PKG_ERRORS=`PKG_CONFIG_PATH="${tmp_PKG_CONFIG_PATH}" $PKG_CONFIG --short-errors --print-errors --cflags --libs "glassimp" 2>&1`
+        else
+	        ppu_glassimp_PKG_ERRORS=`PKG_CONFIG_PATH="${tmp_PKG_CONFIG_PATH}" $PKG_CONFIG --print-errors --cflags --libs "glassimp" 2>&1`
+        fi
+	# Put the nasty error message in config.log where it belongs
+	echo "$ppu_glassimp_PKG_ERRORS" >&5
+
+	as_fn_error $? "Package requirements (glassimp) were not met:
+
+$ppu_glassimp_PKG_ERRORS
+
+Consider adjusting the PKG_CONFIG_PATH environment variable if you
+installed software in a non-standard prefix.
+
+Alternatively, you may set the environment variables ppu_glassimp_CPPFLAGS
+and ppu_glassimp_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details." "$LINENO" 5
+elif test $pkg_failed = untried; then
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
+is in your PATH or set the PKG_CONFIG environment variable to the full
+path to pkg-config.
+
+Alternatively, you may set the environment variables ppu_glassimp_CPPFLAGS
+and ppu_glassimp_LIBS to avoid the need to call pkg-config.
+See the pkg-config man page for more details.
+
+To get pkg-config, see <http://pkg-config.freedesktop.org/>.
+See \`config.log' for more details" "$LINENO" 5; }
+else
+	ppu_glassimp_CPPFLAGS=$pkg_cv_ppu_glassimp_CPPFLAGS
+	ppu_glassimp_LDFLAGS=$pkg_cv_ppu_glassimp_LDFLAGS
+	ppu_glassimp_LIBS=$pkg_cv_ppu_glassimp_LIBS
         { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
 
@@ -6907,6 +7172,7 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/common/rsxgl_samples_config.h") CONFIG_FILES="$CONFIG_FILES src/common/rsxgl_samples_config.h" ;;
     "src/fluids/Makefile") CONFIG_FILES="$CONFIG_FILES src/fluids/Makefile" ;;
+    "src/glassview/Makefile") CONFIG_FILES="$CONFIG_FILES src/glassview/Makefile" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
