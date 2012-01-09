@@ -1,0 +1,11 @@
+//-*-C-*-
+//
+// rsxgl_samples_config.h - Compile-time configuration settings.
+
+#ifndef rsxgl_samples_config_H
+#define rsxgl_samples_config_H
+
+#define RSXGL_SAMPLES_CONFIG_samples_host_ip "@RSXGL_SAMPLES_CONFIG_samples_host_ip@"
+#define RSXGL_SAMPLES_CONFIG_samples_host_port @RSXGL_SAMPLES_CONFIG_samples_host_port@
+
+#endif
