@@ -751,8 +751,6 @@ enable_dependency_tracking
 with_ps3dev
 with_psl1ght
 with_ppu_prefix
-with_samples_host_ip
-with_samples_host_port
 '
       ac_precious_vars='build_alias
 host_alias
@@ -780,6 +778,8 @@ ppu_CXX
 ppu_CXXFLAGS
 ppu_CCC
 CXXCPP
+RSXGL_SAMPLES_CONFIG_samples_host_ip
+RSXGL_SAMPLES_CONFIG_samples_host_port
 ppu_portlibs_PKG_CONFIG_PATH
 PKG_CONFIG
 PKG_CONFIG_PATH
@@ -1423,9 +1423,6 @@ Optional Packages:
   --with-ppu-prefix=PREFIX
                           install products built with the "ppu" toolchain in
                           PREFIX
-  --with-samples-host-ip  IP address of host for samples to send reporting to
-  --with-samples-host-port
-                          port number on host for samples to send reporting to
 
 Some influential environment variables:
   CC          C compiler command
@@ -1459,6 +1456,11 @@ Some influential environment variables:
   ppu_CXXFLAGS
               C++ compiler flags for "ppu" toolchain
   CXXCPP      C++ preprocessor
+  RSXGL_SAMPLES_CONFIG_samples_host_ip
+              IP address of host for samples to send reporting to
+  RSXGL_SAMPLES_CONFIG_samples_host_port
+              port number on host for samples to send reporting to (default is
+              9000)
   ppu_portlibs_PKG_CONFIG_PATH
               pkg-config search paths for PS3 ported libraries (default is
               "${PS3DEV}/portlibs/ppu/lib/pkgconfig")
@@ -5733,25 +5735,14 @@ pop_toolchain_stack "ac_ppu_toolchain_stack" "PATH" "PKG_CONFIG_PATH" "CPP" "CPP
 # Samples can send debugging information back to the host used to build them; set its IP here,
 # or leave it unset & it won't try to phone home:
 
-# Check whether --with-samples-host-ip was given.
-if test "${with_samples_host_ip+set}" = set; then :
-  withval=$with_samples_host_ip; RSXGL_SAMPLES_CONFIG_samples_host_ip="$withval"
-else
-  RSXGL_SAMPLES_CONFIG_samples_host_ip="no"
+
+
+if test -z "${RSXGL_SAMPLES_CONFIG_samples_host_ip}"; then
+RSXGL_SAMPLES_CONFIG_samples_host_port=0
+elif test -z "${RSXGL_SAMPLES_CONFIG_samples_host_port}"; then
+RSXGL_SAMPLES_CONFIG_samples_host_port=9000
 fi
 
-
-# Check whether --with-samples-host-port was given.
-if test "${with_samples_host_port+set}" = set; then :
-  withval=$with_samples_host_port; RSXGL_SAMPLES_CONFIG_samples_host_port="$withval"
-else
-  RSXGL_SAMPLES_CONFIG_samples_host_port=9000
-fi
-
-if test "$RSXGL_SAMPLES_CONFIG_samples_host_ip" == "no" -o -z "$RSXGL_SAMPLES_CONFIG_samples_host_ip"; then
-   RSXGL_SAMPLES_CONFIG_samples_host_ip=""
-   RSXGL_SAMPLES_CONFIG_samples_host_port=0
-fi;
 
 
 
@@ -5806,6 +5797,7 @@ ppu_portlibs_PKG_CONFIG_PATH=${ppu_portlibs_PKG_CONFIG_PATH:-"${PS3DEV}/portlibs
 $as_echo "$as_me: pkg-config search paths for PPU ported libraries are \"${ppu_portlibs_PKG_CONFIG_PATH}\"" >&6;}
 
 # Look for libpng:
+
 
 
 
@@ -5951,6 +5943,7 @@ if test -n "$ppu_libpng_CPPFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_libpng_CPPFLAGS=`$PKG_CONFIG --cflags "libpng" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5967,6 +5960,7 @@ if test -n "$ppu_libpng_LDFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_libpng_LDFLAGS=`$PKG_CONFIG --libs-only-L "libpng" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -5983,6 +5977,7 @@ if test -n "$ppu_libpng_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_libpng_LIBS=`$PKG_CONFIG --libs-only-l "libpng" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6075,6 +6070,7 @@ if test -n "$ppu_zlib_CPPFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_zlib_CPPFLAGS=`$PKG_CONFIG --cflags "zlib" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6091,6 +6087,7 @@ if test -n "$ppu_zlib_LDFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_zlib_LDFLAGS=`$PKG_CONFIG --libs-only-L "zlib" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6107,6 +6104,7 @@ if test -n "$ppu_zlib_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_zlib_LIBS=`$PKG_CONFIG --libs-only-l "zlib" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6199,6 +6197,7 @@ if test -n "$ppu_assimp_CPPFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_assimp_CPPFLAGS=`$PKG_CONFIG --cflags "assimp" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6215,6 +6214,7 @@ if test -n "$ppu_assimp_LDFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_assimp_LDFLAGS=`$PKG_CONFIG --libs-only-L "assimp" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6231,6 +6231,7 @@ if test -n "$ppu_assimp_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_assimp_LIBS=`$PKG_CONFIG --libs-only-l "assimp" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6323,6 +6324,7 @@ if test -n "$ppu_glassimp_CPPFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_glassimp_CPPFLAGS=`$PKG_CONFIG --cflags "glassimp" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6339,6 +6341,7 @@ if test -n "$ppu_glassimp_LDFLAGS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_glassimp_LDFLAGS=`$PKG_CONFIG --libs-only-L "glassimp" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
@@ -6355,6 +6358,7 @@ if test -n "$ppu_glassimp_LIBS"; then
   $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
   test $ac_status = 0; }; then
   pkg_cv_ppu_glassimp_LIBS=`$PKG_CONFIG --libs-only-l "glassimp" 2>/dev/null`
+		      test "x$?" != "x0" && pkg_failed=yes
 else
   pkg_failed=yes
 fi
