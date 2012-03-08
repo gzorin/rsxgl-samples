@@ -1,3 +1,4 @@
+#version 130
 attribute vec2 position;
 
 uniform mat4 ProjMatrix;

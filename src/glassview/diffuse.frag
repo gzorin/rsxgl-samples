@@ -1,3 +1,5 @@
+#version 130
+
 varying vec4 color;
 
 void

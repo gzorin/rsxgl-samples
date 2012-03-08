@@ -10,11 +10,8 @@
 #include "sine_wave.h"
 
 #include <stddef.h>
-#include "glassview_vpo.h"
-#include "glassview_fpo.h"
-
-#include "diffuse_vpo.h"
-#include "diffuse_fpo.h"
+#include "diffuse_vert.h"
+#include "diffuse_frag.h"
 
 #include <io/pad.h>
 
@@ -232,9 +229,21 @@ rsxgltest_init(int argc,const char ** argv)
   glAttachShader(program,shaders[0]);
   glAttachShader(program,shaders[1]);
 
-  // Supply shader binaries:
-  glShaderBinary(1,shaders,0,diffuse_vpo,diffuse_vpo_size);
-  glShaderBinary(1,shaders + 1,0,diffuse_fpo,diffuse_fpo_size);
+  const GLchar * psrc = 0;
+  GLint srclen = 0;
+
+  //glShaderBinary(1,shaders,0,diffuse_vpo,diffuse_vpo_size);
+  //glShaderBinary(1,shaders + 1,0,diffuse_fpo,diffuse_fpo_size);
+
+  psrc = (const GLchar *)diffuse_vert;
+  srclen = diffuse_vert_len;
+  glShaderSource(shaders[0],1,&psrc,&srclen);
+  glCompileShader(shaders[0]);
+  
+  psrc = (const GLchar *)diffuse_frag;
+  srclen = diffuse_frag_len;
+  glShaderSource(shaders[1],1,&psrc,&srclen);
+  glCompileShader(shaders[1]);
 
   // Link the program for real:
   glLinkProgram(program);

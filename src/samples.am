@@ -5,6 +5,7 @@ RANLIB = @ppu_RANLIB@
 AS		=	@ppu_AS@
 STRIP		=	@ppu_STRIP@
 CXXLD = PSL1GHT="@PSL1GHT@" "@ppu_CXX@"
+XXD = @XXD@
 
 PSL1GHT_CPPFLAGS = @PSL1GHT_CPPFLAGS@
 PSL1GHT_LDFLAGS = @PSL1GHT_LDFLAGS@
@@ -26,23 +27,15 @@ LFTP		:= @LFTP@
 SFOXML		:= @top_srcdir@/src/common/sfo.xml
 ICON0		:= @top_srcdir@/src/common/brewcrab.png
 
-SUFFIXES = .bin _bin.o _bin.h .png _png.o _png.h .vcg .fcg .vert .frag _vpo.o _fpo.o _vpo.h _fpo.h .vpo .fpo
+SUFFIXES = .bin _bin.o _bin.h .png _png.o _png.h .vcg .fcg .vert .frag _vert.h _frag.h
 
-%.vpo: %.vcg
-	@echo "[Compiling Cg vertex program] $(notdir $<)"
-	@$(NV40C) -v -x cg -o $@ $^
+%_vert.h: %.vert
+	@echo Generating $@ from $<
+	@pushd $(abs_srcdir); rm -f $(abs_builddir)/$@; $(XXD) -i $(notdir $<) > $(abs_builddir)/$@; popd
 
-%.fpo: %.fcg
-	@echo "[Compiling Cg fragment program] $(notdir $<)"
-	@$(NV40C) -f -x cg -o $@ $^
-
-%.vpo: %.vert
-	@echo "[Compiling GLSL vertex program] $(notdir $<)"
-	@$(NV40C) -v -x glsl -o $@ $^
-
-%.fpo: %.frag
-	@echo "[Compiling GLSL fragment program] $(notdir $<)"
-	@$(NV40C) -f -x glsl -o $@ $^
+%_frag.h: %.frag
+	@echo Generating $@ from $<
+	@pushd $(abs_srcdir); rm -f $(abs_builddir)/$@; $(XXD) -i $(notdir $<) > $(abs_builddir)/$@; popd
 
 %.self: %.elf
 	@echo "[SELF] $@"
@@ -75,33 +68,15 @@ SUFFIXES = .bin _bin.o _bin.h .png _png.o _png.h .vcg .fcg .vert .frag _vpo.o _f
 %_png.h: %_png.o
 	@echo "$<"
 
-%_vpo.o: %.vpo
-	@echo "$(notdir $<)"
-	@$(bin2o)
-
-%_vpo.h: %_vpo.o
-	@echo "$<"
-
-%_fpo.o: %.fpo
-	@echo "$(notdir $<)"
-	@$(bin2o)
-
-%_fpo.h: %_fpo.o
-	@echo "$<"
-
 transfer: pkg
 	@if test -n "$(RSXGL_TARGET_IP)" -a -n "$(LFTP)" -a -f "$(abs_builddir)/pkg/USRDIR/EBOOT.BIN"; then echo "Transferring to $(RSXGL_TARGET_IP)";$(LFTP) -e "cd /dev_hdd0/game/$(APPID)/USRDIR/;put $(abs_builddir)/pkg/USRDIR/EBOOT.BIN;exit;" -u root,openbox $(RSXGL_TARGET_IP); fi
 
 vertex_shaders = $(filter %.vert,$(notdir $(1)))
 fragment_shaders = $(filter %.frag,$(notdir $(1)))
 
-vertex_shader_objs = $(1:.vert=_vpo.o)
-fragment_shader_objs = $(1:.frag=_fpo.o)
+vertex_shader_headers = $(1:.vert=_vert.h)
+fragment_shader_headers = $(1:.frag=_frag.h)
 
-vertex_shader_headers = $(1:.vert=_vpo.h)
-fragment_shader_headers = $(1:.frag=_fpo.h)
-
-shader_objs = $(call vertex_shader_objs,$(call vertex_shaders,$(1))) $(call fragment_shader_objs,$(call fragment_shaders,$(1)))
 shader_headers = $(call vertex_shader_headers,$(call vertex_shaders,$(1))) $(call fragment_shader_headers,$(call fragment_shaders,$(1)))
 
 png_images = $(filter %.png,$(notdir $(1)))

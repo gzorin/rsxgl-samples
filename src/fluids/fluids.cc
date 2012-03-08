@@ -10,10 +10,10 @@
 #include "math3d.h"
 
 #include <stddef.h>
-#include "fluids_vpo.h"
-#include "fluids_fpo.h"
-#include "pointer_vpo.h"
-#include "pointer_fpo.h"
+#include "fluids_vert.h"
+#include "fluids_frag.h"
+#include "pointer_vert.h"
+#include "pointer_frag.h"
 
 #include "texture.h"
 #include "pointer_png.h"
@@ -216,6 +216,9 @@ rsxgltest_init(int argc,const char ** argv)
   glGenTextures(2,textures);
   glGenVertexArrays(2,vaos);
 
+  const GLchar * psrc = 0;
+  GLint srclen = 0;
+
   // Setup fluid:
   {
     GLuint shaders[2] = {
@@ -227,10 +230,17 @@ rsxgltest_init(int argc,const char ** argv)
   
     glAttachShader(programs[0],shaders[0]);
     glAttachShader(programs[0],shaders[1]);
-    
-    glShaderBinary(1,&shaders[0],0,fluids_vpo,fluids_vpo_size);
-    glShaderBinary(1,&shaders[1],0,fluids_fpo,fluids_fpo_size);
-    
+
+    psrc = (const GLchar *)fluids_vert;
+    srclen = fluids_vert_len;
+    glShaderSource(shaders[0],1,&psrc,&srclen);
+    glCompileShader(shaders[0]);
+
+    psrc = (const GLchar *)fluids_frag;
+    srclen = fluids_frag_len;
+    glShaderSource(shaders[1],1,&psrc,&srclen);
+    glCompileShader(shaders[1]);
+
     glLinkProgram(programs[0]);
     glValidateProgram(programs[0]);
   
@@ -287,9 +297,16 @@ rsxgltest_init(int argc,const char ** argv)
   
     glAttachShader(programs[1],shaders[0]);
     glAttachShader(programs[1],shaders[1]);
-    
-    glShaderBinary(1,&shaders[0],0,pointer_vpo,pointer_vpo_size);
-    glShaderBinary(1,&shaders[1],0,pointer_fpo,pointer_fpo_size);
+
+    psrc = (const GLchar *)pointer_vert;
+    srclen = pointer_vert_len;
+    glShaderSource(shaders[0],1,&psrc,&srclen);
+    glCompileShader(shaders[0]);
+
+    psrc = (const GLchar *)pointer_frag;
+    srclen = pointer_frag_len;
+    glShaderSource(shaders[1],1,&psrc,&srclen);
+    glCompileShader(shaders[1]);
     
     glLinkProgram(programs[1]);
     glValidateProgram(programs[1]);
@@ -314,11 +331,11 @@ rsxgltest_init(int argc,const char ** argv)
     // Geometry:
     const float _geometry[] = {
       0,0, 0,0,
-      32,0, 1,0,
-      32,32, 1,1,
+      128,0, 1,0,
+      128,128, 1,1,
       
-      32,32, 1,1,
-      0,32, 0,1,
+      128,128, 1,1,
+      0,128, 0,1,
       0,0, 0,0
     };
  
@@ -335,6 +352,7 @@ rsxgltest_init(int argc,const char ** argv)
 
     // Textures
     glBindTexture(GL_TEXTURE_2D,textures[1]);
+
     glTexStorage2D(GL_TEXTURE_2D,1,GL_RGBA,pointer_image.width,pointer_image.height);
     glTexSubImage2D(GL_TEXTURE_2D,0,0,0,pointer_image.width,pointer_image.height,GL_BGRA,GL_UNSIGNED_BYTE,pointer_image.data);
     
@@ -353,7 +371,7 @@ rsxgltest_draw()
   dens_step ( N, dens, dens_prev, u, v, diff, rsxgltest_delta_time );
   
   // Draw:
-  glClearColor(0,0,0,1);
+  glClearColor(0.5,0.5,0.5,1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Fluid:

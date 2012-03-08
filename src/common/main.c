@@ -56,7 +56,7 @@ float rsxgltest_elapsed_time = 0, rsxgltest_last_time = 0, rsxgltest_delta_time 
 
 int sock = 0;
 
-#if (RSXGL_CONFIG_samples_host_port == 0)
+#if (RSXGL_SAMPLES_CONFIG_samples_host_port == 0)
 #warning "Samples host ip/port not specified, RSXGL samples will not phone home"
 void tcp_init() {}
 void tcp_exit() {}
@@ -79,8 +79,8 @@ void tcp_init()
 	memset(&server, 0, sizeof(server));
 	server.sin_len = sizeof(server);
 	server.sin_family = AF_INET;
-	inet_pton(AF_INET, RSXGL_CONFIG_samples_host_ip, &server.sin_addr);
-	server.sin_port = htons(RSXGL_CONFIG_samples_host_port);
+	inet_pton(AF_INET, RSXGL_SAMPLES_CONFIG_samples_host_ip, &server.sin_addr);
+	server.sin_port = htons(RSXGL_SAMPLES_CONFIG_samples_host_port);
 
 	int ret = connect(sock, (struct sockaddr*)&server, sizeof(server));
 	if (ret) {
